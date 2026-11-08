@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Essential Skills Self-Assessment</title>
+<style>
+  :root{
+    --ink:#1d2433; --muted:#5b6475; --line:#e3e6ec; --bg:#f6f7fb; --card:#fff;
+    --accent:#2f5bea; --yes:#1f8a5b; --some:#d98a12; --no:#b8bfcc;
+    --comm:#2f5bea; --cps:#7a3fd1; --self:#d2551e; --inter:#138a8a;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+  header{background:var(--ink);color:#fff;padding:28px 20px 22px}
+  header .wrap{max-width:1000px;margin:0 auto}
+  header h1{margin:0 0 6px;font-size:1.7rem;letter-spacing:-.01em}
+  header p{margin:0;color:#c9cfdb;max-width:720px}
+  main{max-width:1000px;margin:0 auto;padding:22px 20px 60px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:18px}
+  h2{margin:0 0 10px;font-size:1.3rem}
+  h3{margin:0 0 6px;font-size:1.05rem}
+  .muted{color:var(--muted)}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:end}
+  label.f{display:flex;flex-direction:column;font-size:.85rem;color:var(--muted);gap:4px;flex:1;min-width:180px}
+  input[type=text],select,textarea{font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  textarea{width:100%;min-height:70px;resize:vertical}
+  button{font:inherit;cursor:pointer;border-radius:9px;border:1px solid var(--line);background:#fff;padding:9px 14px;color:var(--ink)}
+  button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+  button:focus-visible{outline:3px solid #9db4ff;outline-offset:2px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+  .skill-tile{border:1px solid var(--line);border-left:6px solid var(--c);border-radius:12px;padding:14px;background:#fff;text-align:left;display:flex;flex-direction:column;gap:6px}
+  .skill-tile:hover{box-shadow:0 3px 12px rgba(20,30,60,.08)}
+  .skill-tile .dom{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--c);font-weight:700}
+  .skill-tile .nm{font-weight:700;font-size:1.05rem}
+  .skill-tile .st{font-size:.85rem;color:var(--muted)}
+  .meter{height:8px;background:#edf0f5;border-radius:99px;overflow:hidden}
+  .meter i{display:block;height:100%;background:var(--c);border-radius:99px}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+  .tabs button{border-radius:99px;padding:7px 13px;font-size:.88rem}
+  .tabs button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .skill-head{border-left:6px solid var(--c);padding-left:14px;margin-bottom:12px}
+  .skill-head .dom{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--c);font-weight:700}
+  .key{display:flex;gap:14px;flex-wrap:wrap;font-size:.85rem;color:var(--muted);margin:8px 0 14px}
+  .key span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;background:var(--k)}
+  .step{display:grid;grid-template-columns:62px 1fr auto;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+  .step .n{font-weight:700;color:var(--c);font-size:.9rem}
+  .step .txt{font-size:.97rem}
+  .seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+  .seg button{border:0;border-radius:0;padding:7px 11px;font-size:.82rem;background:#fff;border-left:1px solid var(--line)}
+  .seg button:first-child{border-left:0}
+  .seg button[aria-pressed=true][data-v="0"]{background:#eef0f4;color:var(--ink);font-weight:600}
+  .seg button[aria-pressed=true][data-v="1"]{background:var(--some);color:#fff;font-weight:600}
+  .seg button[aria-pressed=true][data-v="2"]{background:var(--yes);color:#fff;font-weight:600}
+  .step.secure{background:linear-gradient(90deg,rgba(31,138,91,.06),transparent 60%)}
+  .step.next{background:linear-gradient(90deg,rgba(47,91,234,.08),transparent 60%)}
+  .badge{display:inline-block;font-size:.7rem;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--accent);color:#fff;margin-left:6px;vertical-align:middle}
+  .live{position:sticky;top:0;z-index:5;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;font-size:.92rem}
+  .nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .sum-skill{display:grid;grid-template-columns:150px 1fr 70px;gap:12px;align-items:center;padding:8px 0}
+  .sum-skill .bar{position:relative;height:22px;background:#edf0f5;border-radius:6px;overflow:hidden}
+  .sum-skill .bar i{position:absolute;inset:0 auto 0 0;background:var(--c);border-radius:6px}
+  .sum-skill .bar b{position:absolute;inset:0 auto 0 0;background:var(--c);opacity:.28;border-radius:6px}
+  .ticks{display:grid;grid-template-columns:150px 1fr 70px;gap:12px;font-size:.72rem;color:var(--muted)}
+  .ticks div:nth-child(2){display:flex;justify-content:space-between}
+  .domain-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--c);margin-top:12px}
+  .detail{border-left:5px solid var(--c);padding:12px 14px;background:#fafbfd;border-radius:10px;margin-bottom:12px}
+  .detail p{margin:4px 0}
+  .pill{display:inline-block;font-size:.78rem;padding:2px 9px;border-radius:99px;background:#eef0f4;margin:2px 4px 2px 0}
+  .hide{display:none!important}
+  footer{max-width:1000px;margin:0 auto;padding:0 20px 40px;font-size:.78rem;color:var(--muted)}
+  @media (max-width:640px){
+    .step{grid-template-columns:1fr}
+    .sum-skill,.ticks{grid-template-columns:100px 1fr 54px}
+  }
+  @media print{
+    header,.no-print,#assess,#home,footer .no-print{display:none!important}
+    body{background:#fff}
+    .card{border:0;padding:0}
+    #summary{display:block!important}
+    .detail{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>My Essential Skills Self-Assessment</h1>
+  <p>Work through the eight essential skills. For each step, decide honestly whether you can do it <strong>confidently</strong>, <strong>sometimes</strong>, or <strong>not yet</strong>. You'll get a summary showing which step you are at in each skill and what to work on next.</p>
+</div></header>
+
+<main>
+  <!-- HOME -->
+  <section id="home">
+    <div class="card">
+      <h2>About you</h2>
+      <div class="row">
+        <label class="f">Your name<input type="text" id="sName" autocomplete="name"></label>
+        <label class="f">Class / tutor group<input type="text" id="sClass"></label>
+        <label class="f">Date<input type="text" id="sDate"></label>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Choose a skill</h2>
+      <p class="muted" style="margin-top:0">You can do them in any order. Your answers save in this browser while you work.</p>
+      <div class="grid" id="tiles"></div>
+      <div class="nav no-print">
+        <button id="resetAll">Clear all answers</button>
+        <button class="primary" id="toSummary">See my summary →</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>How your step is worked out</h3>
+      <p class="muted" style="margin:0">The steps build on each other. Your <strong>secure step</strong> is the highest step where you can do that step <em>and every step before it</em> confidently. The next step after that is the one to work on. Answers marked "sometimes" show skills that are developing.</p>
+    </div>
+  </section>
+
+  <!-- ASSESS -->
+  <section id="assess" class="hide">
+    <div class="tabs no-print" id="tabs"></div>
+    <div class="card">
+      <div id="skillHead"></div>
+      <div class="live" id="live"></div>
+      <div class="key">
+        <span style="--k:var(--yes)">Confidently – I do this regularly and could give an example</span>
+        <span style="--k:var(--some)">Sometimes – I can do this but not every time</span>
+        <span style="--k:var(--no)">Not yet</span>
+      </div>
+      <div id="steps"></div>
+      <div style="margin-top:16px">
+        <label class="f" style="min-width:100%">An example of when I used this skill (optional)
+          <textarea id="evidence" placeholder="e.g. In our group project I…"></textarea>
+        </label>
+      </div>
+      <div class="nav">
+        <button id="backHome">← All skills</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button id="prevSkill">← Previous skill</button>
+          <button class="primary" id="nextSkill">Next skill →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUMMARY -->
+  <section id="summary" class="hide">
+    <div class="card">
+      <h2 id="sumTitle">My skills summary</h2>
+      <p class="muted" id="sumMeta" style="margin-top:0"></p>
+      <div id="chart"></div>
+    </div>
+    <div class="card">
+      <h2>Strengths and next steps</h2>
+      <div id="highlights"></div>
+    </div>
+    <div class="card">
+      <h2>Skill by skill</h2>
+      <div id="details"></div>
+    </div>
+    <div class="card">
+      <h2>My reflection</h2>
+      <label class="f" style="min-width:100%">One skill I will focus on and how I'll practise it
+        <textarea id="reflection"></textarea>
+      </label>
+    </div>
+    <div class="nav no-print">
+      <button id="sumBack">← Back to skills</button>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button id="copySum">Copy summary text</button>
+        <button class="primary" onclick="window.print()">Print / save as PDF</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Skill definitions and step statements are from the <strong>Skills Builder Universal Framework</strong> (Ravenscroft, T. (2020), Skills Builder Universal Framework: Toolkit for Skills-Building Organisations, London: Skills Builder Partnership), used under a Creative Commons Attribution-NoDerivatives 4.0 International Licence. Statements are reproduced unchanged. More information: skillsbuilder.org/universal</p>
+</footer>
+
+<script>
+const DOMAINS = {
+  comm:{name:"Communication",color:"var(--comm)"},
+  cps:{name:"Creative problem-solving",color:"var(--cps)"},
+  self:{name:"Self-management",color:"var(--self)"},
+  inter:{name:"Interpersonal",color:"var(--inter)"}
+};
+const SKILLS = [
+ {id:"listening",name:"Listening",dom:"comm",def:"The receiving, retaining and processing of information or ideas",steps:[
+  "I listen to others without interrupting",
+  "I listen to others and can remember short instructions",
+  "I listen to others and can ask questions if I don't understand",
+  "I listen to others and can tell someone else what it was about",
+  "I listen to others and can tell why they are communicating with me",
+  "I listen to others and record important information as I do",
+  "I show I am listening by how I use eye contact and body language",
+  "I show I am listening by using open questions to deepen my understanding",
+  "I show I am listening by summarising or rephrasing what I have heard",
+  "I am aware of how a speaker is influencing me through their tone",
+  "I am aware of how a speaker is influencing me through their language",
+  "I listen critically and compare different perspectives",
+  "I listen critically and think about where differences in perspectives come from",
+  "I listen critically and identify potential bias in different perspectives",
+  "I listen critically and use questioning to evaluate different perspectives",
+  "I listen critically and look beyond the way speakers speak or act to objectively evaluate different perspectives"]},
+ {id:"speaking",name:"Speaking",dom:"comm",def:"The oral transmission of information or ideas",steps:[
+  "I speak clearly to someone I know",
+  "I speak clearly to small groups of people I know",
+  "I speak clearly to individuals and small groups I do not know",
+  "I speak effectively by making points in a logical order",
+  "I speak effectively by thinking about what my listeners already know",
+  "I speak effectively by using appropriate language",
+  "I speak effectively by using appropriate tone, expression and gesture",
+  "I speak engagingly by using facts and examples to support my points",
+  "I speak engagingly by using visual aids to support my points",
+  "I speak engagingly by using tone, expression and gesture to engage listeners",
+  "I speak adaptively by changing my language, tone and expression depending on the response of listeners",
+  "I speak adaptively by planning for different possible responses of listeners",
+  "I speak adaptively by changing my content depending on the response of listeners",
+  "I speak influentially by changing the structure of my points to best persuade the listeners",
+  "I speak influentially by changing the examples and facts I use to best persuade the listeners",
+  "I speak influentially by articulating a compelling vision that persuades the listeners"]},
+ {id:"problem",name:"Problem Solving",dom:"cps",def:"The ability to find a solution to a situation or challenge",steps:[
+  "I complete tasks by following instructions",
+  "I complete tasks by finding someone to help if I need them",
+  "I complete tasks by explaining problems to someone for advice if I need",
+  "I complete tasks by finding information I need myself",
+  "I explore problems by creating different possible solutions",
+  "I explore problems by thinking about the pros and cons of possible solutions",
+  "I explore complex problems by identifying when there are no simple technical solutions",
+  "I explore complex problems by building my understanding through research",
+  "I explore complex problems by analysing the causes and effects",
+  "I create solutions for complex problems by generating a range of options",
+  "I create solutions for complex problems by evaluating the positive and negative effects of a range of options",
+  "I analyse complex problems by using logical reasoning",
+  "I analyse complex problems by creating and testing hypotheses",
+  "I implement strategic plans to solve complex problems",
+  "I implement strategic plans to solve complex problems and assess their success",
+  "I implement strategic plans to solve complex problems and draw out learning to refine those plans over time"]},
+ {id:"creativity",name:"Creativity",dom:"cps",def:"The use of imagination and the generation of new ideas",steps:[
+  "I imagine different situations",
+  "I imagine different situations and can say what I imagine",
+  "I imagine different situations and can bring them to life in different ways",
+  "I generate ideas when I've been given a clear brief",
+  "I generate ideas to improve something",
+  "I generate ideas by combining different concepts",
+  "I use creativity in the context of work",
+  "I use creativity in the context of my wider life",
+  "I develop ideas by using mind mapping",
+  "I develop ideas by asking myself questions",
+  "I develop ideas by considering different perspectives",
+  "I innovate effectively when working in a group",
+  "I innovate effectively by seeking out varied experiences and stimuli",
+  "I support others to innovate by sharing a range of tools",
+  "I support others to innovate by evaluating the right creative tools for different situations",
+  "I support others to innovate by coaching them to be more creative"]},
+ {id:"positive",name:"Staying Positive",dom:"self",def:"The ability to use tactics and strategies to overcome setbacks and achieve goals",steps:[
+  "I can tell when I feel positive or negative",
+  "I can tell when others feel positive or negative",
+  "I keep trying when something goes wrong",
+  "I keep trying and stay calm when something goes wrong",
+  "I keep trying when something goes wrong, and think about what happened",
+  "I keep trying when something goes wrong and help cheer others up",
+  "I keep trying when something goes wrong and encourage others to keep trying too",
+  "I look for opportunities in difficult situations",
+  "I look for opportunities in difficult situations, and share these with others",
+  "I look for opportunities in difficult situations, and adapt plans to use these opportunities",
+  "I look for opportunities in difficult situations, and create new plans to use these opportunities",
+  "I identify risks and gains in opportunities",
+  "I identify risks and gains in opportunities, and make plans to manage them",
+  "I support others to stay positive, by managing my own responses",
+  "I support others to stay positive, by helping others to see opportunities",
+  "I support others to stay positive, by helping others to see opportunities and creating plans to achieve them"]},
+ {id:"aiming",name:"Aiming High",dom:"self",def:"The ability to set clear, tangible goals and devise a robust route to achieving them",steps:[
+  "I know when I am finding something too difficult",
+  "I know what doing well looks like for me",
+  "I work with care and attention to detail",
+  "I work with pride when I am being successful",
+  "I work with a positive approach to new challenges",
+  "I set goals for myself",
+  "I set goals informed by an understanding of what is needed",
+  "I set goals, ordering and prioritise tasks to achieve them",
+  "I set goals and secure the right resources to achieve them",
+  "I set goals and plan to involve others in the best way",
+  "I create plans that are informed by my skill set and that of others",
+  "I create plans that include clear targets to make progress tangible",
+  "I create plans that are informed by external views, including constructive criticism",
+  "I develop long-term strategies taking into account strengths, weaknesses, opportunities and threats",
+  "I develop long-term strategies that use regular milestones to keep everything on track",
+  "I develop long-term strategies that include feedback loops to support flexibility and adaptability"]},
+ {id:"leadership",name:"Leadership",dom:"inter",def:"Supporting, encouraging and developing others to achieve a shared goal",steps:[
+  "I know how I am feeling about something",
+  "I know how to explain my feelings about something to my team",
+  "I know how to recognise others' feelings about something",
+  "I manage dividing up tasks between others in a fair way",
+  "I manage time and share resources to support completing tasks",
+  "I manage group discussions to reach shared decisions",
+  "I manage disagreements to reach shared solutions",
+  "I recognise my own strengths and weaknesses as a leader",
+  "I recognise the strengths and weaknesses of others in my team",
+  "I recognise the strengths and weaknesses of others in my team, and use this to allocate roles accordingly",
+  "I support others through mentorship",
+  "I support others through coaching",
+  "I support others through motivating them",
+  "I reflect on my own leadership style and its effect on others",
+  "I reflect on my own leadership style, and build on my strengths and mitigate my weaknesses",
+  "I reflect on my own leadership style, and adapt my approach according to the situation"]},
+ {id:"teamwork",name:"Teamwork",dom:"inter",def:"Working cooperatively with others towards achieving a shared goal",steps:[
+  "I work with others in a positive way",
+  "I work well with others by behaving appropriately",
+  "I work well with others by being on time and reliable",
+  "I work well with others by taking responsibility for completing my tasks",
+  "I work well with others by supporting them if I can do so",
+  "I work well with others by understanding and respecting diversity of others' cultures, beliefs and backgrounds",
+  "I contribute to group decision making",
+  "I contribute to group decision making, whilst recognising the value of others' ideas",
+  "I contribute to group decision making, encouraging others to contribute",
+  "I improve the team by not creating unhelpful conflicts",
+  "I improve the team by resolving unhelpful conflicts",
+  "I improve the team by building relationships beyond my immediate team",
+  "I influence the team by reflecting on progress and suggesting improvements",
+  "I influence the team by evaluating successes and failures and sharing lessons",
+  "I support the team by evaluating others' strengths and weaknesses, and supporting them accordingly",
+  "I support the team by bringing in external expertise and relationships"]}
+];
+const LABELS = ["Not yet","Sometimes","Confidently"];
+const KEY = "skills-self-assessment-v1";
+
+let state = {name:"",cls:"",date:new Date().toLocaleDateString("en-GB"),answers:{},evidence:{},reflection:""};
+try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s) state = Object.assign(state,s);}catch(e){}
+function save(){ try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){} }
+
+const $ = id => document.getElementById(id);
+let current = 0;
+
+function ans(skill){ return state.answers[skill.id] || (state.answers[skill.id] = Array(16).fill(null)); }
+function stats(skill){
+  const a = ans(skill);
+  let secure = -1;
+  for(let i=0;i<16;i++){ if(a[i]===2) secure=i; else break; }
+  const answered = a.filter(v=>v!==null).length;
+  const conf = a.filter(v=>v===2).length;
+  const some = a.map((v,i)=>v===1?i:null).filter(v=>v!==null);
+  const confAbove = a.map((v,i)=>v===2&&i>secure+1?i:null).filter(v=>v!==null);
+  // "developing to" = furthest step answered confidently or sometimes
+  let reach = -1; a.forEach((v,i)=>{ if(v>=1) reach=i; });
+  return {secure, next: secure<15? secure+1 : null, answered, conf, some, confAbove, reach};
+}
+function stepText(s){ return s.secure<0 ? "Not yet secure at Step 0" : `Step ${s.secure}`; }
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  $("sName").value = state.name; $("sClass").value = state.cls; $("sDate").value = state.date;
+  $("tiles").innerHTML = SKILLS.map((sk,i)=>{
+    const s = stats(sk), c = DOMAINS[sk.dom].color;
+    const pct = s.secure<0?0:((s.secure+1)/16*100);
+    const status = s.answered===0 ? "Not started" : `${s.answered}/16 answered · secure at ${stepText(s).replace("Not yet secure at ","—")}`;
+    return `<button class="skill-tile" style="--c:${c}" data-i="${i}">
+      <span class="dom">${DOMAINS[sk.dom].name}</span>
+      <span class="nm">${sk.name}</span>
+      <span class="st">${status}</span>
+      <span class="meter"><i style="width:${pct}%"></i></span></button>`;
+  }).join("");
+  $("tiles").querySelectorAll(".skill-tile").forEach(b=>b.onclick=()=>openSkill(+b.dataset.i));
+}
+["sName","sClass","sDate"].forEach((id,k)=>$(id).addEventListener("input",e=>{
+  state[["name","cls","date"][k]] = e.target.value; save();
+}));
+
+/* ---------- ASSESS ---------- */
+function show(sec){ ["home","assess","summary"].forEach(s=>$(s).classList.toggle("hide",s!==sec)); window.scrollTo(0,0); }
+function openSkill(i){ current=i; renderSkill(); show("assess"); }
+
+function renderTabs(){
+  $("tabs").innerHTML = SKILLS.map((sk,i)=>`<button aria-pressed="${i===current}" data-i="${i}">${sk.name}</button>`).join("");
+  $("tabs").querySelectorAll("button").forEach(b=>b.onclick=()=>{current=+b.dataset.i;renderSkill();});
+}
+function renderLive(){
+  const sk=SKILLS[current], s=stats(sk);
+  $("live").innerHTML = `<span><strong>Secure:</strong> ${stepText(s)}</span>
+    <span><strong>Next step:</strong> ${s.next===null?"All steps secure – brilliant!":"Step "+s.next}</span>
+    <span class="muted">${s.answered}/16 answered</span>`;
+  $("steps").querySelectorAll(".step").forEach((row,i)=>{
+    row.classList.toggle("secure", i<=s.secure);
+    row.classList.toggle("next", i===s.next && s.answered>0);
+    row.querySelector(".badge").classList.toggle("hide", !(i===s.next && s.answered>0));
+  });
+}
+function renderSkill(){
+  const sk=SKILLS[current], c=DOMAINS[sk.dom].color, a=ans(sk);
+  document.querySelector("#assess .card").style.setProperty("--c",c);
+  renderTabs();
+  $("skillHead").innerHTML = `<div class="skill-head" style="--c:${c}">
+    <div class="dom">${DOMAINS[sk.dom].name}</div><h2 style="margin:2px 0">${sk.name}</h2>
+    <div class="muted">${sk.def}</div></div>`;
+  $("steps").innerHTML = sk.steps.map((t,i)=>`<div class="step" style="--c:${c}">
+      <div class="n">Step ${i}</div>
+      <div class="txt">${t}<span class="badge hide">Work on this next</span></div>
+      <div class="seg" role="group" aria-label="Step ${i}">
+        ${[0,1,2].map(v=>`<button data-s="${i}" data-v="${v}" aria-pressed="${a[i]===v}">${LABELS[v]}</button>`).join("")}
+      </div></div>`).join("");
+  $("steps").querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.s, v=+b.dataset.v;
+    a[i] = a[i]===v ? null : v; save();
+    b.parentElement.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", a[i]===+x.dataset.v));
+    renderLive();
+  });
+  $("evidence").value = state.evidence[sk.id]||"";
+  $("prevSkill").disabled = current===0;
+  $("nextSkill").textContent = current===SKILLS.length-1 ? "See my summary →" : "Next skill →";
+  renderLive();
+}
+$("evidence").addEventListener("input",e=>{ state.evidence[SKILLS[current].id]=e.target.value; save(); });
+$("prevSkill").onclick=()=>{ if(current>0){current--;renderSkill();window.scrollTo(0,0);} };
+$("nextSkill").onclick=()=>{ if(current<SKILLS.length-1){current++;renderSkill();window.scrollTo(0,0);} else openSummary(); };
+$("backHome").onclick=()=>{ renderHome(); show("home"); };
+
+/* ---------- SUMMARY ---------- */
+function openSummary(){ renderSummary(); show("summary"); }
+$("toSummary").onclick=openSummary;
+$("sumBack").onclick=()=>{ renderHome(); show("home"); };
+
+function renderSummary(){
+  $("sumTitle").textContent = state.name ? `${state.name}'s skills summary` : "My skills summary";
+  $("sumMeta").textContent = [state.cls, state.date].filter(Boolean).join(" · ") +
+    " — solid bar = secure step; faded bar = steps you can do sometimes or confidently beyond that.";
+
+  let html = `<div class="ticks"><div></div><div>${[0,3,6,9,12,15].map(n=>`<span>${n}</span>`).join("")}</div><div></div></div>`;
+  Object.keys(DOMAINS).forEach(d=>{
+    html += `<div class="domain-label" style="--c:${DOMAINS[d].color}">${DOMAINS[d].name}</div>`;
+    SKILLS.filter(s=>s.dom===d).forEach(sk=>{
+      const s=stats(sk), sec=(s.secure+1)/16*100, rch=(s.reach+1)/16*100;
+      html += `<div class="sum-skill" style="--c:${DOMAINS[d].color}">
+        <div><strong>${sk.name}</strong></div>
+        <div class="bar" role="img" aria-label="${sk.name}: ${stepText(s)}"><b style="width:${rch}%"></b><i style="width:${sec}%"></i></div>
+        <div>${s.answered===0?'<span class="muted">—</span>':(s.secure<0?"Pre 0":"Step "+s.secure)}</div></div>`;
+    });
+  });
+  $("chart").innerHTML = html;
+
+  const done = SKILLS.filter(sk=>stats(sk).answered>0);
+  if(!done.length){ $("highlights").innerHTML = `<p class="muted">You haven't answered any steps yet. Go back and choose a skill to start.</p>`; }
+  else{
+    const sorted = [...done].sort((a,b)=>stats(b).secure-stats(a).secure);
+    const top = sorted.slice(0,2), low = sorted.slice(-2).reverse().filter(x=>!top.includes(x));
+    $("highlights").innerHTML = `
+      <p><strong>Strongest skills:</strong> ${top.map(sk=>`${sk.name} (${stepText(stats(sk))})`).join(", ")}</p>
+      ${low.length?`<p><strong>Skills to focus on:</strong> ${low.map(sk=>`${sk.name} (${stepText(stats(sk))})`).join(", ")}</p>`:""}
+      ${done.length<8?`<p class="muted">You still have ${8-done.length} skill${8-done.length>1?"s":""} to assess.</p>`:""}`;
+  }
+
+  $("details").innerHTML = SKILLS.map(sk=>{
+    const s=stats(sk), c=DOMAINS[sk.dom].color;
+    if(s.answered===0) return `<div class="detail" style="--c:${c}"><h3>${sk.name}</h3><p class="muted">Not assessed yet.</p></div>`;
+    const ev = state.evidence[sk.id];
+    return `<div class="detail" style="--c:${c}">
+      <h3>${sk.name} — ${stepText(s)}</h3>
+      ${s.secure>=0?`<p><strong>I can confidently:</strong> ${sk.steps[s.secure]}</p>`:""}
+      ${s.next!==null?`<p><strong>My next step (Step ${s.next}):</strong> ${sk.steps[s.next]}</p>`:`<p><strong>All 16 steps secure.</strong> Keep applying this skill and helping others develop it.</p>`}
+      ${s.some.length?`<p><strong>Developing (sometimes):</strong> ${s.some.map(i=>`<span class="pill">Step ${i}</span>`).join("")}</p>`:""}
+      ${s.confAbove.length?`<p><strong>Confident beyond my next step:</strong> ${s.confAbove.map(i=>`<span class="pill">Step ${i}</span>`).join("")} <span class="muted">— close the gap at Step ${s.next} to move up.</span></p>`:""}
+      ${ev?`<p><strong>Example:</strong> ${ev.replace(/</g,"&lt;")}</p>`:""}
+    </div>`;
+  }).join("");
+  $("reflection").value = state.reflection||"";
+}
+$("reflection").addEventListener("input",e=>{state.reflection=e.target.value;save();});
+
+$("copySum").onclick=()=>{
+  const lines=[`Skills summary – ${state.name||""} ${state.cls?"("+state.cls+")":""} ${state.date}`.trim(),""];
+  SKILLS.forEach(sk=>{ const s=stats(sk);
+    lines.push(`${sk.name}: ${s.answered?stepText(s):"not assessed"}${s.answered&&s.next!==null?` | Next: Step ${s.next} – ${sk.steps[s.next]}`:""}`); });
+  if(state.reflection) lines.push("","Focus: "+state.reflection);
+  const txt=lines.join("\n");
+  const done=()=>{$("copySum").textContent="Copied ✓";setTimeout(()=>$("copySum").textContent="Copy summary text",1500);};
+  if(navigator.clipboard) navigator.clipboard.writeText(txt).then(done,()=>prompt("Copy this:",txt)); else prompt("Copy this:",txt);
+};
+
+$("resetAll").onclick=()=>{
+  if(!confirm("Clear all your answers and start again?")) return;
+  state={name:"",cls:"",date:new Date().toLocaleDateString("en-GB"),answers:{},evidence:{},reflection:""};
+  save(); renderHome();
+};
+
+renderHome();
+</script>
+</body>
+</html>
